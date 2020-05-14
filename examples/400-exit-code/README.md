@@ -4,7 +4,7 @@ Just like `os/exec` package, `dexec` also returns an `ExitError`
 type that you can collect valuable information such as:
 
 * `ExitCode int`
-* `Stderr   []byte` if process was started using `Output()` method.
+* `Stderr []byte` if process was started using `Output()` method.
 
 In this example, we start a program that is supposed to fail:
 
@@ -19,16 +19,16 @@ To run this example:
 ## Migration from `os/exec`
 
 ```diff
-> 	cl, _ := docker.NewClientFromEnv()
-> 	d := dexec.Docker{cl}
-> 
-> 	m, _ := dexec.ByCreatingContainer(docker.CreateContainerOptions{
-> 		Config: &docker.Config{Image: "busybox"}})
-> 
-< 	cmd := exec.Command("sh", "-c", "exit 255;")
-> 	cmd := d.Command(m, "sh", "-c", "exit 255;")
-< 	if ee, ok := err.(*exec.ExitError); ok {
-< 		fmt.Printf("exit code=%d\n", ee.Sys().(syscall.WaitStatus).ExitStatus())
-> 	if ee, ok := err.(*dexec.ExitError); ok {
-> 		fmt.Printf("exit code=%d\n", ee.ExitCode)
+>  cl, _ := docker.NewClientFromEnv()
+>  d := dexec.Docker{cl}
+>
+>  m, _ := dexec.ByCreatingContainer(docker.CreateContainerOptions{
+>    Config: &docker.Config{Image: "busybox"}})
+>
+<  cmd := exec.Command("sh", "-c", "exit 255;")
+>  cmd := d.Command(m, "sh", "-c", "exit 255;")
+<  if ee, ok := err.(*exec.ExitError); ok {
+<    fmt.Printf("exit code=%d\n", ee.Sys().(syscall.WaitStatus).ExitStatus())
+>  if ee, ok := err.(*dexec.ExitError); ok {
+>    fmt.Printf("exit code=%d\n", ee.ExitCode)
 ```
