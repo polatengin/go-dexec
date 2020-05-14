@@ -1,7 +1,6 @@
 # dexec [![GoDoc](https://godoc.org/github.com/ahmetalpbalkan/dexec?status.png)][godoc]
 
-
-`dexec` is a small Go library allowing you to run processes inside 
+`dexec` is a small Go library allowing you to run processes inside
 Docker containers as if you are running them locally using [`os/exec`][osexec] package.
 Read documentation at [godoc.org][godoc] or [see examples](examples).
 
@@ -12,7 +11,7 @@ Its interface is [strikingly similar][godoc] to [`os/exec`][osexec].
 [osexec]: https://godoc.org/os/exec
 [godoc]: https://godoc.org/github.com/ahmetalpbalkan/dexec
 
-### Examples
+## Examples
 
 Check out the following [examples](examples):
 
@@ -23,7 +22,7 @@ Check out the following [examples](examples):
 - [Audio extraction from YouTube videos →](examples/500-video-processing)
 - [Parallel computation on Swarm →](examples/600-parallel-compute)
 
-### A Short Example 
+## A Short Example
 
 It takes only a **4-line code change** to convert a piece of code
 using `os/exec` to use `dexec` to start running your stuff inside containers.
@@ -34,29 +33,29 @@ Here is a minimal Go program that runs `echo` in a container:
 package main
 
 import (
-	"log"
+  "log"
 
-	"github.com/ahmetalpbalkan/dexec"
-	"github.com/fsouza/go-dockerclient"
+  "github.com/ahmetalpbalkan/dexec"
+  "github.com/fsouza/go-dockerclient"
 )
 
 func main(){
-	cl, _ := docker.NewClient("unix:///var/run/docker.sock")
-	d := dexec.Docker{cl}
+  cl, _ := docker.NewClient("unix:///var/run/docker.sock")
+  d := dexec.Docker{cl}
 
-	m, _ := dexec.ByCreatingContainer(docker.CreateContainerOptions{
-	Config: &docker.Config{Image: "busybox"}})
+  m, _ := dexec.ByCreatingContainer(docker.CreateContainerOptions{
+  Config: &docker.Config{Image: "busybox"}})
 
-	cmd := d.Command(m, "echo", `I am running inside a container!`)
-	b, err := cmd.Output()
-	if err != nil { log.Fatal(err) }
-	log.Printf("%s", b)
+  cmd := d.Command(m, "echo", `I am running inside a container!`)
+  b, err := cmd.Output()
+  if err != nil { log.Fatal(err) }
+  log.Printf("%s", b)
 }
 ```
 
 Output: `I am running inside a container!`
 
-### Use Cases
+## Use Cases
 
 This library is intended for providing an execution model that looks and feels
 like [`os/exec`][osexec] package.
