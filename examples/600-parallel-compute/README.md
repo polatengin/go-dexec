@@ -17,23 +17,22 @@ $ docker pull busybox
 $ go run main.go
 ```
 
-### `os/exec` vs `dexec`
+## `os/exec` vs `dexec`
 
 | Mode  | Execution Time | Bytes Downloaded | 
 | ------| -------------- | ---------------- |
 | Locally on a single node (`os/exec`)    |  `1m20s` | `0.8 GB` |
 | 5-node Docker Swarm Cluster (`dexec`) on cloud | `10s` | `396 bytes` |
 
-
-### Migration from `os/exec`
+## Migration from `os/exec`
 
 Good ol’ 5-lines:
 
 ```diff
-> 	cl, _ := docker.NewClientFromEnv()
-> 	d = dexec.Docker{cl}
-> 	m, _ := dexec.ByCreatingContainer(docker.CreateContainerOptions{
-> 		Config: &docker.Config{Image: "busybox"}})
-< 	cmd := exec.Command("sh", "-c", fmt.Sprintf("wget -qO- %s | md5sum", url))
-> 	cmd := d.Command(m, "sh", "-c", fmt.Sprintf("wget -qO- %s | md5sum", url))
+>  cl, _ := docker.NewClientFromEnv()
+>  d = dexec.Docker{cl}
+>  m, _ := dexec.ByCreatingContainer(docker.CreateContainerOptions{
+>    Config: &docker.Config{Image: "busybox"}})
+<  cmd := exec.Command("sh", "-c", fmt.Sprintf("wget -qO- %s | md5sum", url))
+>  cmd := d.Command(m, "sh", "-c", fmt.Sprintf("wget -qO- %s | md5sum", url))
 ```
