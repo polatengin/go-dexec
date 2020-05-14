@@ -13,16 +13,15 @@ To run this example:
     FROM
     CONTAINER
 
-
 ## Migration from `os/exec`
 
 ```diff
-> 	cl, _ := docker.NewClientFromEnv()
-> 	d := dexec.Docker{cl}
-> 
-> 	m, _ := dexec.ByCreatingContainer(docker.CreateContainerOptions{
-> 		Config: &docker.Config{Image: "busybox"}})
-> 
-< 	cmd := exec.Command("tr", "[:lower:]", "[:upper:]")
-> 	cmd := d.Command(m, "tr", "[:lower:]", "[:upper:]")
+>  cl, _ := docker.NewClientFromEnv()
+>  d := dexec.Docker{cl}
+>
+>  m, _ := dexec.ByCreatingContainer(docker.CreateContainerOptions{
+>    Config: &docker.Config{Image: "busybox"}})
+>
+<  cmd := exec.Command("tr", "[:lower:]", "[:upper:]")
+>  cmd := d.Command(m, "tr", "[:lower:]", "[:upper:]")
 ```
