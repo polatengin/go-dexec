@@ -4,7 +4,7 @@ In this example, we will extract audio (mp3) from a YouTube video
 using `youtube-dl` and `ffmpeg`.
 
 However instead of downloading the entire video to our computer and
-keeping our CPU busy, we can offload this work to cloud using `dexec`: 
+keeping our CPU busy, we can offload this work to cloud using `dexec`:
 
     youtube-dl [url] -o - | ffmpeg -i pipe:0 -f mp3 pipe:1
 
@@ -24,11 +24,11 @@ To run this example:
 Again, just 5 lines (after 4 examples, you’re not surprised, right?):
 
 ```diff
-> 	cl, _ := docker.NewClientFromEnv()
-> 	d := dexec.Docker{cl}
-> 
-> 	m, _ := dexec.ByCreatingContainer(docker.CreateContainerOptions{
-> 		Config: &docker.Config{Image: "vimagick/youtube-dl"}})
-< 	cmd := exec.Command("sh", "-c", fmt.Sprintf("youtube-dl %s -o - | ffmpeg -i pipe:0 -f mp3 pipe:1", url))
-> 	cmd := d.Command(m, "sh", "-c", fmt.Sprintf("youtube-dl %s -o - | ffmpeg -i pipe:0 -f mp3 pipe:1", url))
+>  cl, _ := docker.NewClientFromEnv()
+>  d := dexec.Docker{cl}
+>
+>  m, _ := dexec.ByCreatingContainer(docker.CreateContainerOptions{
+>    Config: &docker.Config{Image: "vimagick/youtube-dl"}})
+<  cmd := exec.Command("sh", "-c", fmt.Sprintf("youtube-dl %s -o - | ffmpeg -i pipe:0 -f mp3 pipe:1", url))
+>  cmd := d.Command(m, "sh", "-c", fmt.Sprintf("youtube-dl %s -o - | ffmpeg -i pipe:0 -f mp3 pipe:1", url))
 ```
