@@ -1,7 +1,7 @@
 # 500-video-processing
 
 In this example, we will extract audio (mp3) from a YouTube video
-using `youtubbe-dl` and `ffmpeg`.
+using `youtube-dl` and `ffmpeg`.
 
 However instead of downloading the entire video to our computer and
 keeping our CPU busy, we can offload this work to cloud using `dexec`: 
